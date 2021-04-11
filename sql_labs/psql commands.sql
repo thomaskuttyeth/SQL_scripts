@@ -1,0 +1,5 @@
+-- psql -U postgres -h localhost
+--\list - listing all databases 
+-- \c changing databases 
+--\q - quiting the process
+--\dt+ table_name - getting the field names 
