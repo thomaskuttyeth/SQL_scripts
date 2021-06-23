@@ -1,0 +1,24 @@
+
+# user name and password setting 
+ALTER USER postgres PASSWORD 'supinf123';
+
+
+# running the command 
+psql -U postgres -h localhost 
+
+# to get the databases we are having now 
+\l 
+
+# creating multiple users 
+## listing the users 
+	\du 
+	CREATE USER thomas WITH CREATEDB LOGIN ENCRYPTED PASSWORD 'thomas';
+	
+# lets create a database with the same user name 
+	CREATE DATABASE thomas;
+	
+# lets create a new trail database db1_access_trail 
+	CREATE DATABASE db1_access_trail;
+# grant access to the user thomas 
+	GRANT ALL PRIVILEGES ON DATABASE db1_access_trail to thomas;
+
