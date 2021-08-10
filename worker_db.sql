@@ -35,11 +35,16 @@ select ltrim(first_name) from Worker;
 
 -- fectches the unique values of department from worker  table and prints its length.
 select distinct length(dept) from Worker; 
+select distinct dept, length(dept) from worker;
 select dept from Worker;
 
 
 -- print  first_name from worker after replacing a with 'A' 
 select replace(first_name, 'a','A') from Worker;
+
+-- replacing the substring with "RR"
+select replace (first_name, substring(first_name, 1,1), "RR") from worker;
+
 
 -- getting the host name 
 SELECT boot_val,reset_val

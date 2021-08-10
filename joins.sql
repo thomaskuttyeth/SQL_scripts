@@ -25,7 +25,21 @@ from payment
 inner join customer
 on payment.customer_id = customer.customer_id;
 
+
+--inner join example : 
+-- problem : group all the customer based on sum of the amount 
+-- and return the name of the customer  who spent more than 100 (total amount)
+-- and their respective total amount spent. 
 -- payment and customer joins 
+
+select first_name, sum(amount) as total_spent from payment
+inner join customer
+on customer.customer_id = payment.customer_id 
+group by first_name 
+having sum(amount) > 100;
+
+
+
 
 SELECT * from payment;
 
@@ -53,11 +67,20 @@ Where table_schema = 'public';
 
 -- finding all films which do not have a inventory id 
 
--- first part is the left join 
+-- first part is the left join : method 1 using left join 
 SELECT film.film_id,title,inventory_id, store_id
 from film
 left join inventory on 
 inventory.film_id = film.film_id
+
+-- method 2 : using full outer join/full join 
+select title from film
+full outer join inventory 
+on film.film_id = inventory.film_id 
+where inventory.film_id is null;  
+
+
+
 -- passing one more filter 
 where inventory.film_id is null;
 

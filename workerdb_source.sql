@@ -76,7 +76,7 @@ INSERT INTO Title
 
  -- left join : 
  -- taking all from worker and matching from bonus 
- select first_name, last_name, bonus_amount
+select first_name, last_name, bonus_amount
 from worker
 left join bonus 
 on worker.worker_id = bonus.worker_id;
