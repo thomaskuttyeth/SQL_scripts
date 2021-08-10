@@ -24,6 +24,7 @@ SELECT CURRENT_DATE;
 -- extract() function allows us to extract  or obtain a sub component of a date value 
  ---- year, month, day, week, quarter 
 
+
 -- Extract (year from date_col)
 
 -- age() function calculates and return the current age given a timestamp 
@@ -36,15 +37,29 @@ SELECT CURRENT_DATE;
     -- useful for timestamp formatting 
     -- to_char(date_col, 'mm-dd-yyyy')
 
+select table_name from information_schema.tables 
+where table_schema = 'public';
+
 
 select payment_date from payment;
-select EXTRACT(DAY from payment_date) AS year from payment ;
+
+-- extract(month), day, year 
+select EXTRACT(year from payment_date) as year, 
+extract (month from payment_date)
+AS month from payment ;
 
 
 SELECT AGE(payment_date) from payment;
 
 
 select to_char(payment_date, 'd') from payment;
+
+-- following returns the month in integer format 
+select distinct(extract(month from payment_date)) from payment;
+
+-- changing the integer format month into its actual string using to_char()
+
+select disticnt(to_char(floor(extract(month from payment_date))), 'Month') from payment; 
 
 
 -- challenge - during which month did payments occur
@@ -77,7 +92,7 @@ from film
 select length(first_name) from customer;
 
 -- string concatenation 
-select first_name || ' ' || last_name as full_name from customer;
+select first_name || '.' || last_name || '@gmail.com'  as full_name from customer;
 
 -- creating a special email id for all the customers 
 select LEFT(first_name, 1) || lower(last_name) || '@cmp.in' from customer;
@@ -91,7 +106,7 @@ SELECT name,grade from student
 where grade > select avg(grade) from students;
 
 -- films havign renatla rate greater than avg rental rate 
-select title,rental_rate from film where rental_rate > (select avg(rental_rate) from film)
+select title,rental_rate from film where rental_rate > (select avg(rental_rate) from film);
 
 
 -- if subquery returns multiple values then use in operator 

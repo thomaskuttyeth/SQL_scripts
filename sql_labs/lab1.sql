@@ -54,9 +54,9 @@ INSERT INTO Marks (studId,subId,marks) VALUES ('20122006','DBTDS02',26);
 
 
 select name from tblstudent
-where rollno = select rollno from 
-                tblmarks where marks >= select avg(marks) 
-                from tblmarks
+where rollno = (
+    select rollno from tblmarks where marks >= select avg(marks) from tblmarks
+)
 
 
 
