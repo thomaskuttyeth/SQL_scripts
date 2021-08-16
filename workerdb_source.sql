@@ -98,3 +98,26 @@ on worker.worker_id = bonus.worker_id ;
 
 
 
+
+
+insert into subject values('DL101', 'deep learning - fundamentals','ds01')
+insert into subject values('DL102', 'deep learning - advanced','ds03');
+insert into subject values('sql101', 'sql - fundamentals','ds02');
+insert into subject values('sql102', 'sql - advanced ','ds04');
+
+
+
+
+UPDATE  subject
+SET teacherid = 'ml301' where subid = 'DBTDS02';
+UPDATE  subject
+SET teacherid = 'ml302' where subid = 'ML101';
+
+UPDATE  subject
+SET teacherid = 'ml303' where subid = 'GRP102';
+
+UPDATE  subject
+SET teacherid = 'ml304' where subid = 'MFDS01'; 
+
+UPDATE  subject
+SET teacherid = 'ml305' where subid = 'REGRE103';

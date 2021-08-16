@@ -1,5 +1,3 @@
--- credit : https://www.techbeamers.com/sql-query-questions-answers-for-practice/ ( data base )
-
 
 -- fetch first_names from worker table using alias name as worker_name
 select first_name as worker_name from Worker;
