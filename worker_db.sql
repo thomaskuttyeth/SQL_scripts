@@ -95,3 +95,11 @@ left join bonus
 on worker_ref_id = worker_id;
 
 --=============================================
+
+-- using subquery 
+select * from bonus
+where bonus_amount < (select avg(bonus_amount) from bonus);
+
+
+
+
