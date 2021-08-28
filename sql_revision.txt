@@ -1,0 +1,104 @@
+===========================    
+SQL REVISION 
+===========================
+============================================
+   		DAY 1 
+============================================
+1. table creation 
+2. table deletion 
+3. renaming table 
+4. deleting row from table 
+5. creating new database 
+6. normalization 
+    * first normal
+    * second normal
+    * third normal
+    * partial dependency 
+    * transitive dependecy 
+    * prime attributes 
+    * non- prime attributes 
+    * candidate key and primary key 
+    * non- candidate key 
+    * foriegn key 
+7. sql joins 
+    * inner join 
+    * left join 
+    * right join 
+    * full outer join 
+    * self join 
+8. types of dbms 
+9. inserting data into table 
+10. column and table constraints:
+    * not null 
+    * default
+    * unique 
+    * primary 
+    * foriegn
+    * check 
+    * index 
+11. viewing relations in a database 
+12. viewing fields in table 
+13. selecting the user 
+14. updating the data (dml command)
+15. renaming the relation using alter 
+16. sql functions 
+    * avg()
+    * count() 
+    * orderby() 
+    * len()
+    * min()
+    * max() 
+    * group by () 
+    * having() 
+    * where() 
+    * set() 
+    * between() 
+    * in()
+    * like() and ilike() 
+    * upper()
+    * lower()
+    * substring() 
+    * distinct() 
+    * limit() 
+    * not 
+    * rtrim() and ltrim() 
+    * replace() 
+17. showing avialable databases 
+
+
+============================================
+		day2 
+============================================
+1. subqueries   
+2. date time handling 
+3. pivoting data 
+4. except 
+5. cascade 
+6. self joins 
+7. temporary tables 
+8. views 
+9. using aliases 
+10. inserting multiple records using condition 
+11. database keys 
+12. droping table and deleting rows 
+13. backup database 
+14. sql injection
+15. sql hosting
+16. data types 
+17. sql wildcards 
+18. select into 
+19. any , all 
+20. set operations 
+21. null values 
+22. mathematical operations 
+23. sql boolean operations
+24. null if 
+25. import and export 
+26. coalesce 
+27. case 
+28. string operations 
+
+
+
+
+
