@@ -1,0 +1,118 @@
+======================================
+dbms 
+types of dbms 
+database 
+relational database 
+==========================================
+sql language 
+ - ddl = create ,drop , alter , rename, truncate
+ - dml - select, insert, update, delete 
+ - dcl - grant , revoke 
+ 
+ - tcl - transaction control language 
+       - commit , rollback , savepoint , set transaction 
+
+=================================================================
+type of keys in relational model 
+------------------------------------
+major rule - no tuples have exactly the same values for all attributes 
+
+super key - subset of attributes, taken collectiely allows us to uniquely identify tuple. 
+
+candidate key - subset of super keys which is devoid any attributes that are not important for identifying unique tuples. 
+
+(class id, rollno, regno, firstname) =r 
+candidate keys = {regno , {classid, rollno}} 
+
+
+primary key = is a candidate key which is chosen by data base designer 
+   -- must contain unique values 
+   -- cannot have null values 
+
+composite key = when multiple fields are used as primary key. 
+foriegn key - if a relation contain the primary of another relation then such is known foreignkey 
+
+if the primary key of r1 is used as foriegn in the r2 then r1 is referenced relation and r2 is referencing relation. 
+
+------------------------------------------------------------------
+integrity constraints 
+----------------------------------------
+ - domain constraints 
+ - key constraints 
+ - referential integrity contrainsts 
+ - entity integrity constraint - no attributes of primary must contains a null values 
+ - referential integriy - all the values taken by the foriegn key must either be available in primary of the refereded relation or be null 
+  - two implications ( insert, delete ) 
+
+referential integrity violations IN (referenced and referencing relation) 
+ - on delete 
+ - on update 
+ - on insert 
+
+Data manipulation language 
+==============================================
+select , insert, update,  delete 
+
+selection
+ - aggregation functions ( avg, min, max, count, sum) 
+ - groupby and having 
+ - sorting 
+ - muliple conditions 
+ - where clause, ( distinct, between, in, from , orderby, limit, boolean ...) 
+
+insert 
+ - insert into table 
+delete 
+ - where clause 
+update 
+ - tuple updation using condition , set key word 
+
+
+nested queries 
+================================================
+check constraints : assertion 
+================================
+views  - virtual table created from one or more tables 
+=========================
+set operations 
+ - union, union all, intersect, minus 
+=======================================================
+joins 
+ - inner join 
+ - left join 
+ - full join 
+ - right join 
+============================================
+normalization 
+============================
+anomalies 
+ - happened in non normalised data or poorly designed database(inconsistent) 
+ - reduntacy - having multiple copies 
+ 
+ - insert anomaly - when certain attributes cannot be inserted without the presence of other attributes. 
+ --delete anomaly - 
+ -- update anomaly - 
+
+
+==========================
+functional dependecy 
+ - trivial ( if we have a relation ( a --> b) and b is a subset of a then it is trivial dependecy and a -->a is also trivial dependecy. 
+   ({emplo_id, emploee_name} ---> employee_id) 
+ 
+ - non trivial (a --> b) 
+   ( employee_id --> employee_name) 
+
+ - fully functional dependecy ({a,b} --> c ) c is determined by both a and b not by a part of it. 
+
+ - partial functional dependecy
+ - transitive fucntional dependecy  
+===========================
+
+
+mapping cardinalities 
+ - one to one (student has only one student ID, and each student ID is assigned to only one person) 
+ - one to many (people and addresses) 
+ - many to many (A student can register for many classes, and a class can include many students) 
+ - many to one ( A project can have more than one student working on it) 
+
+======================================================================
