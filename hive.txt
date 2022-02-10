@@ -1,0 +1,508 @@
+
+
+mean, median, mode - hive 
+percentiles 
+group by, avg, order by 
+stddev_pop, count,
+rank, dense_rank, row_number 
+lag, lead, 
+------------------
+date functions 
+select current_date; 
+select current_timestamp(); 
+select add_months(current_date, 1); 
+select add_months(current_date,-3);
+select date_add(current_date,10); 
+select from _unixtime(unix_timestamp(201907','yyyyMM')); 
+select months_between('2019-02-28','2018-10-28); 
+select date_format(current_date, 'yyyyMM') ; 
+
+-------Numeric to Date time Conversion--------------
+select date_format(from_unixtime(unix_timestamp(cast(20190226 as string),
+'yyyyMMdd')),'dd MMM YYYY');
+
+
+select date_format(from_unixtime(unix_timestamp(concat(cast(201904 as string)
+,'01'),'yyyyMMdd')),'yyyy MMM dd');
+
+--------------------------------
+substring 
+trim 
+split 
+concat 
+cast : conversion 
+
+
+
+
+
+--hive table creation code 
+
+CREATE TABLE deck_of_cards(
+COLOR string, 
+SUIT string, 
+PIP string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
+
+STORED AS TEXTFILE; 
+
+
+
+-- changing the database 
+
+use database; 
+
+
+
+--creating the database; 
+
+CREATE DATABASE IF NOT EXIST cards; 
+
+
+
+-- hive location 
+
+/user/hive/warehouse/ 
+
+
+
+--listing out directories in the hive warehouse 
+
+dfs -ls /user/hive/warehouse 
+
+
+
+-- loading data into hive 
+
+LOAD DATA LOCAL INPATH '/home/cloudera/Desktop/cards.txt' INTO TABLE deck_of_cards; 
+
+
+
+-- seeing the hive configuration files 
+
+cd /etc/hive/conf 
+
+
+
+-- note: hive is using mysql database and the database name is metastore the password is cloudera 
+
+
+
+-- checking the databases for which the hive user has access to; 
+
+mysql -u hive -p 
+
+show databases --> information_schema and metastore 
+
+
+
+-- finding the jar files related to hive 
+
+sudo find / -name "*hive*.jar" 
+
+
+
+-----------------------------------
+
+         HIVE ARCHITECTURE 
+
+----------------------------------
+
+* Hive Metastore 
+
+* Hive Configuration 
+
+  	- hive-site.xml 
+
+	-.hiverc 
+
+	- run time configuration ( using set operator) 
+
+
+
+	for example : 
+
+	set mapreduce.job.reduces; 
+
+	set mapreduce.job.reduces=2; 
+
+
+
+* hive command line 
+
+	-  hive (launches command line) 
+
+	- hive -e (to execute individual command w/o launching command line) 
+
+	- hive -f (to execute hive script which contains series of hive commands w/o lauching command line) 
+
+* hive log files 
+
+	-by default hive logs are writte to /tmp directory 
+
+
+
+
+
+========================================================
+
+whomami; 
+
+pwd; 
+
+-- overwritting the hive parameters 
+
+vi .hiverc ; 
+
+
+
+-- notes on hive log files ;
+
+by default uses /tmp/${user}
+
+override it using (-hiveconf or set) 
+
+	-hive.log.dir 
+
+	-hive.log-file
+
+	-hive.querylog.location
+
+
+
+
+
+# loading mysql customers table from retail_db database into a hive table using sqoop;
+
+ 
+
+sqoop import --connect jdbc:mysql://localhost/retail_db --username=root --password=cloudera --table=customers --hive-home=/user/hive/warehouse --hive-import --hive-overwrite --hive-table=retail_db.customers
+
+
+
+	* first create a table inside a database in hive
+
+	* schema should match with the data which needs to be imported 
+
+	* using sqoop for the import 
+
+
+
+table creation in hive for importing the customer table; 
+
+create table customers(
+
+customer_id int,
+
+customer_fname varchar(45),
+
+customer_lname varchar(45),
+
+customer_email varchar(45),
+
+customer_password varchar(45),
+
+customer_street varchar(255),
+
+customer_city varchar(45),
+
+customer_state varchar(45),
+
+customer_zipcode varchar(45)) 
+
+
+
+-- table description 
+
+describe table_name; 
+
+
+
+-- select clause 
+
+select customer_city,customer_fname from customers; 
+
+
+
+-- count 
+
+select count(1) from customers; 
+
+
+
+-- limiting the output rows 
+
+select * from orders limit 100; 
+
+
+
+create table categories(
+
+category_id int,
+
+category_department_id int, 
+
+category_name varchar(45))
+
+
+
+sqoop import --connect jdbc:mysql://localhost/retail_db --username=root --password=cloudera --table=categories --hive-home=/user/hive/warehouse --hive-import --hive-overwrite --hive-table=retaildb.categories
+
+
+
+create table departments(
+
+department_id int,
+
+department_name varchar(45)); 
+
+
+
+
+
+sqoop import --connect jdbc:mysql://localhost/retail_db --username=root --password=cloudera --table=departments --hive-home=/user/hive/warehouse --hive-import --hive-overwrite --hive-table=retaildb.departments;
+
+
+
+create table order_items(
+
+order_item_id int,
+
+order_item_order_id int,
+
+order_item_product_id int,
+
+order_item_quantity int,
+
+order_item_subtotal float,
+
+order_item_product_price float); 
+
+
+
+
+
+sqoop import --connect jdbc:mysql://localhost/retail_db --username=root --password=cloudera --table=order_items --hive-home=/user/hive/warehouse --hive-import --hive-overwrite --hive-table=retaildb.order_items;
+
+
+
+
+
+create table orders(
+
+order_id int,
+
+order_date timestamp,
+
+order_customer_id int,
+
+order_status varchar(45));
+
+
+
+
+
+sqoop import --connect jdbc:mysql://localhost/retail_db --username=root --password=cloudera --table=orders --hive-home=/user/hive/warehouse --hive-import --hive-overwrite --hive-table=retaildb.orders;
+
+
+
+create table products(
+
+product_id int,
+
+product_category_id int, 
+
+product_name varchar(45),
+
+product_description varchar(45),
+
+product_price float,
+
+product_image varchar(255));
+
+
+
+
+
+sqoop import --connect jdbc:mysql://localhost/retail_db --username=root --password=cloudera --table=products --hive-home=/user/hive/warehouse --hive-import --hive-overwrite --hive-table=retaildb.products;
+
+
+
+-------------------------------------------
+
+          hive ddl operations 
+
+--------------------------------------------
+
+CREATE TABLE pokes(foo INT, bar STRING); 
+
+
+
+-- creating a paritioned table in hive 
+
+
+
+CREATE TABLE people(first_name string, last_name string, state string)
+
+row format delimited 
+
+fields terminated by ','; 
+
+load data local inpath '/home/cloudera/Desktop/people.txt' into table people; 
+
+
+
+
+
+
+
+-- how to clean a data from a hive table 
+
+TRUNCATE TABLE IF EXISTS ${tablenam}
+
+
+
+
+
+CREATE TABLE part_people_state(first_name string, last_name string)
+
+PARTITIONED BY (state string);
+
+
+
+--loading the data into partitioned table 
+
+insert overwrite table part_people_state partition (state) select * from people; 
+
+
+
+browsing through tables 
+
+SHOW TABLES '.*S'; 
+
+
+
+
+
+-- altering and dropping tables 
+
+ALTER TABLE events RENAME TO new_tbl_name ; 
+
+ALTER TABLE events ADD COLUMNS (new_col INT);
+
+
+
+ hive> ALTER TABLE events RENAME TO 3koobecaf;
+
+ hive> ALTER TABLE pokes ADD COLUMNS (new_col INT);
+
+ hive> ALTER TABLE invites ADD COLUMNS (new_col2 INT COMMENT 'a comment');
+
+ hive> ALTER TABLE invites REPLACE COLUMNS (foo INT, bar STRING, baz INT COMMENT 'baz replaces new_col2');
+
+
+
+ hive> ALTER TABLE invites REPLACE COLUMNS (foo INT COMMENT 'only keep the first column');
+
+
+
+language maual link ddl - https://cwiki.apache.org/confluence/display/hive/languagemanual+ddl
+
+
+
+notes on hive -general 
+
+----------------------------------
+
+apache hive is a datawarehousing software facilitates reading, writing, and managing large datasets residing in distributed storage and queries using sql syntax. 
+
+hive provides following features; 
+
+	* tools to enable easy access to data via sql, thus enabling data warehousing tasks such as extract/transform/load, reporting, dand data analysis. 
+
+	* access to files stored either directly in apache hdfs or in other data storage systems such as apache hbase. 
+
+	* query execution via apache tez, apache spark or map reduce, 
+
+	* procedural language with hpl-sql 
+
+	* sub secondary query retrieval via hive llap, apache yarn and apache slider. 
+
+
+
+Hive comes with built in connectors for comma and tab-separated values (CSV/TSV) text files, Apache Parquet™, Apache ORC™, and other formats. Users can extend Hive with connectors for other formats.
+
+
+
+Hive is not designed for online transaction processing (OLTP) workloads. It is best used for traditional data warehousing tasks.
+
+
+
+Hive is designed to maximize scalability (scale out with more machines added dynamically to the Hadoop cluster), performance, extensibility, fault-tolerance, and loose-coupling with its input formats.
+
+
+
+Components of Hive include HCatalog and WebHCat.
+
+
+
+HCatalog is a table and storage management layer for Hadoop that enables users with different data processing tools — including Pig and MapReduce — to more easily read and write data on the grid.
+
+WebHCat provides a service that you can use to run Hadoop MapReduce (or YARN), Pig, Hive jobs. You can also perform Hive metadata operations using an HTTP (REST style) interface.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
