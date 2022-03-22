@@ -85,6 +85,7 @@ select product_name,group_name,price,
 from products
 inner join product_groups using (group_id); 
 
+
 -- lag and lead 
 select product_name,group_name,price,
 	lag(price,1) over(partition by group_name order by price) as prev_price,
