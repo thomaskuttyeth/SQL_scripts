@@ -24,5 +24,3 @@ order by month_date asc;
 
 
 
-
-9767835498
